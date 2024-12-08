@@ -77,11 +77,20 @@ def find_guard(grid):
                 return i, j
     return None
 
+def count_spaces(grid):
+    count = 1  # accounting for final space
 
-grid = get_grid('input.txt')
+    for j in grid:
+        for i in j:
+            if i == "X":
+                count += 1
+    return count
+
+
+grid = get_grid('testInput.txt')
 guard_location = find_guard(grid)
 i = guard_location[0]
 j = guard_location[1]
 guard = Guard("^", i, j, [])
 guard.move_guard(grid)
-print(guard.final)
+print(count_spaces(grid))
