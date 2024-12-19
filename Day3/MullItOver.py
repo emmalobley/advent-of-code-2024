@@ -1,17 +1,29 @@
 import re
 
-def getSum(file):
+
+def get_text(file):
     with open(file) as f:
         txt = f.read()
-        x = re.findall("mul\(\d+,\d+\)", txt)
+    return txt
 
-    sum = 0
-    for item in x:
-        print(item)
+
+def get_mul_sum(text):
+
+    # Use regex to replace everything between 'dont()' and the next 'do()' with a placeholder
+    cleaned_text = re.sub("don't\(\)(.*?)do\(\)", '', text, flags=re.DOTALL)
+
+    mul_pattern = r'mul\(\d+,\d+\)'
+    mul_matches = re.findall(mul_pattern, cleaned_text)
+
+    mul_sum = 0
+    for item in mul_matches:
         temp = re.findall(r'\d+', item)
-        res = list(map(int, temp))
-        # nums = [int(i) for i in item.split() if i.isdigit()]
-        sum = sum + res[0]*res[1]
-    return sum
+        numpair = list(map(int, temp))
+        print(numpair)
+        mul_sum = mul_sum + numpair[0]*numpair[1]
+        print(mul_sum)
+    return mul_sum
 
-print(getSum("input.txt"))
+
+print(get_mul_sum(get_text("input.txt")))
+
