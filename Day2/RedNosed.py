@@ -27,9 +27,10 @@ def checkSafe(report):
     return safeDecrease(report) + safeIncrease(report)
 
 def safeDampened(report):
-    for i in range(len(report)-1):
+    for i in range(len(report)):
         newReport = report[:]  # slice notation - copy list
         newReport.pop(i)
+
         if checkSafe(newReport) == 1:
             return 1
     return 0
