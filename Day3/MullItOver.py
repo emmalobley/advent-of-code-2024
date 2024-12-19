@@ -9,8 +9,9 @@ def get_text(file):
 
 def get_mul_sum(text):
 
-    # Use regex to replace everything between 'dont()' and the next 'do()' with a placeholder
+    # Use regex to replace everything between 'don't()' and the next 'do()' with nothing and after final don't()
     cleaned_text = re.sub("don't\(\)(.*?)do\(\)", '', text, flags=re.DOTALL)
+    cleaned_text = re.sub("don't\([^)]*\).*$", '', cleaned_text, flags=re.DOTALL)
 
     mul_pattern = r'mul\(\d+,\d+\)'
     mul_matches = re.findall(mul_pattern, cleaned_text)
