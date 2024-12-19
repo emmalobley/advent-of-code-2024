@@ -20,9 +20,7 @@ def get_mul_sum(text):
     for item in mul_matches:
         temp = re.findall(r'\d+', item)
         numpair = list(map(int, temp))
-        print(numpair)
         mul_sum = mul_sum + numpair[0]*numpair[1]
-        print(mul_sum)
     return mul_sum
 
 
