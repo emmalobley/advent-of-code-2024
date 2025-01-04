@@ -1,46 +1,53 @@
+import itertools
+
+
 def get_dict(filename):
     data_dict = {}
 
     with open(filename, 'r') as file:
         for line in file:
-            # Strip any leading/trailing whitespace and split the line by the colon
             key, values = line.strip().split(':')
 
-            # Convert the part after the colon (values) into a list of integers
             value_list = list(map(int, values.split()))
 
-            # Add the key and the list of integers to the dictionary
             data_dict[int(key)] = value_list
     return data_dict
+
+
+def apply_operations(numbers, ops):
+    result = numbers[0]
+    for num, op in zip(numbers[1:], ops):
+        if op == '+':
+            result += num
+        elif op == '*':
+            result *= num
+        elif op == '||':
+            result = int(str(result)+str(num))
+    return result
+
+
+def find_matching_expression(numbers, target):
+    operators = ['+', '*', '||']
+    num_operations = len(numbers) - 1
+    possible_ops = itertools.product(operators, repeat=num_operations)
+
+    for ops in possible_ops:
+        result = apply_operations(numbers, ops)
+        if result == target:
+            return ops
+    return None
 
 
 def get_count(dictionary):
     count = 0
     for item in dictionary:
+        operators = find_matching_expression(dictionary[item], item)
 
-        print("We need to make " + str(item) + " from:" + str(dictionary[item]))
-
-        my_sum = 0
-        for number in dictionary[item]:
-            my_sum += number
-        print(my_sum)
-
-        if my_sum == dictionary:
-            count += my_sum
-            print("It's a match!")
-
-        prod = 1
-        for number in dictionary[item]:
-            prod *= number
-        print(prod)
-
-        if prod == dictionary:
-            print("It's a match!")
-
+        if operators:
+            count += item
     return count
 
 
-dicti = get_dict('testInput.txt')
+dicti = get_dict('input.txt')
 
 print(get_count(dicti))
-
